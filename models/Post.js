@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema({
 	date: {
 		type: String,
 		default: DateTime.fromJSDate(new Date()).toLocaleString(
-			DateTime.DATETIME_MED,
+			DateTime.DATETIME_FULL,
 		),
 	},
 
