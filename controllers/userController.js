@@ -29,9 +29,20 @@ exports.register = async (req, res) => {
 		password: hashPassword,
 	});
 
+	//create and sign jwt token to be automatically logged in
+	const token = jwt.sign(
+		{ _id: user._id },
+		process.env.TOKEN_SECRET,
+	);
+
 	try {
 		await user.save();
-		res.send({ user: user._id });
+		res.send({
+			token: token,
+			user: {
+				username: user.username,
+			},
+		});
 	} catch (err) {
 		res.status(400).send(err);
 	}
@@ -62,5 +73,10 @@ exports.login = async (req, res) => {
 		{ _id: user._id },
 		process.env.TOKEN_SECRET,
 	);
-	res.header('auth-token', token).send(token);
+	res.send({
+		token: token,
+		user: {
+			username: user.username,
+		},
+	});
 };
