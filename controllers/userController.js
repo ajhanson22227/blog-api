@@ -36,10 +36,10 @@ exports.register = async (req, res) => {
 	try {
 		await user.save();
 		res.send({
-			token: token,
 			user: {
 				username: user.username,
 				status: user.status,
+				token: token,
 			},
 		});
 	} catch (err) {
@@ -49,14 +49,23 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
 	//validate user data
+	let count = 1;
+	console.log(`step ${count}`);
+	count += 1;
 	const { error } = loginValidation(req.body);
 	if (error) return res.status(400).json(error.details[0].message);
+	console.log(`step ${count}`);
+	count += 1;
 
 	//check for username in db
 	const user = await User.findOne({ username: req.body.username });
+	console.log(`step ${count}`);
+	count += 1;
 	if (!user) {
 		return res.status(400).json('Invalid Email');
 	}
+	console.log(`step ${count}`);
+	count += 1;
 
 	//check if password is correct
 	const validPass = await bcrypt.compare(
@@ -73,10 +82,10 @@ exports.login = async (req, res) => {
 		process.env.TOKEN_SECRET,
 	);
 	res.send({
-		token: token,
 		user: {
 			username: user.username,
 			status: user.status,
+			token: token,
 		},
 	});
 };
