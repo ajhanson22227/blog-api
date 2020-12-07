@@ -20,7 +20,7 @@ exports.create_comment = async (req, res) => {
 		await Post.findByIdAndUpdate(req.params.postid, {
 			$inc: { comments: 1 },
 		});
-		res.send(comment);
+		return;
 	} catch (err) {
 		res.status(400).send(err);
 	}
