@@ -8,19 +8,15 @@ const {
 
 exports.register = async (req, res) => {
 	//validate user data
-	console.log('step 1');
 	const { error } = registerValidation(req.body);
 	if (error) return res.status(400).json(error.details[0].message);
 	//check if username exists
-	console.log('step 2');
 	const usernameExist = await User.findOne({
 		username: req.body.username,
 	});
-	console.log('step 3');
 	if (usernameExist) {
 		return res.status(400).json('Username Already Exists');
 	}
-	console.log('step 4');
 	const salt = await bcrypt.genSalt(10);
 	const hashPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -31,7 +27,6 @@ exports.register = async (req, res) => {
 		password: hashPassword,
 		status: 'viewer',
 	});
-	console.log('step 5');
 	//create and sign jwt token to be automatically logged in
 	const token = jwt.sign(
 		{ _id: user._id },
