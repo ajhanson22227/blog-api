@@ -17,9 +17,6 @@ exports.create_comment = async (req, res) => {
 		//save comment
 		await comment.save();
 		//update post with new comment Num
-		await Post.findByIdAndUpdate(req.params.postid, {
-			$inc: { comments: 1 },
-		});
 		return;
 	} catch (err) {
 		res.status(400).send(err);
